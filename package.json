@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "astro build && touch dist/.nojekyll && cd dist && git init -q -b gh-pages && git add -A && git -c user.name=ajaygahlot8 -c user.email=5995394+ajaygahlot8@users.noreply.github.com commit -qm deploy && git push -qf git@github.com:ajaygahlot8/ajaygahlot8.github.io.git gh-pages",
     "astro": "astro"
   },
   "dependencies": {
