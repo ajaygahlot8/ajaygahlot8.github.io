@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+const rows = [
+  ['Operating system', 'Omarchy Linux: Arch with Hyprland.'],
+  ['Coding agents', 'Claude Code and Cursor, with Hermes Agent for the always-on personal stack.'],
+  ['Personal agent', 'Hermes Agent on Claude, with local long-term memory and about 50 scheduled jobs. WhatsApp is the main interface, voice calls included.'],
+  ['Homelab', 'A Raspberry Pi 4 and a mini PC running AdGuard Home, Immich, Uptime Kuma and a Glance dashboard.'],
+];
+---
+<Base title="Uses" description="The operating system, editors, agents and homelab I use day to day.">
+  <div class="wrap uses">
+    <header class="page-head"><h1 class="title">Uses</h1><p>What I actually run, kept short.</p></header>
+    <dl>{rows.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
+  </div>
+</Base>

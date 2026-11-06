@@ -1,0 +1,93 @@
+---
+import '../styles/global.css';
+import serifFont from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+import { me, getPosts } from '../lib/site';
+
+interface Props { title?: string; description: string; type?: 'website' | 'article'; jsonLd?: object }
+const { title, description, type = 'website', jsonLd } = Astro.props;
+const full = title ? `${title} · ${me.name}` : `${me.name}: Engineering Manager who still builds`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = new URL('/og.png', Astro.site);
+const path = Astro.url.pathname;
+const nav = [['Home', '/'], ['Writing', '/writing/'], ['About', '/about/'], ['Uses', '/uses/']];
+const active = (h: string) => (h === '/' ? path === '/' : path.startsWith(h));
+
+const posts = await getPosts();
+const cmdk = [
+  ...nav.map(([t, h]) => ({ t, h, k: 'Page' })),
+  ...posts.map((p) => ({ t: p.data.title, h: `/writing/${p.id}/`, k: 'Post' })),
+];
+const cmdkJson = JSON.stringify({ items: cmdk, me }).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Ajay Singh: writing" href="/rss.xml" />
+    <link rel="preload" href={serifFont} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={me.name} />
+    <meta property="og:title" content={full} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={full} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    <meta name="theme-color" content="#0a0f10" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7faf9" media="(prefers-color-scheme: light)" />
+    <script is:inline>
+      try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="Ajay Singh, home">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#0a0f10" stroke="#2dd4bf" stroke-width="1.5" /><text x="16" y="21.5" text-anchor="middle" font-family="ui-monospace,monospace" font-weight="700" font-size="14" fill="#2dd4bf">AS</text></svg>
+          <span>Ajay Singh</span>
+        </a>
+        <nav aria-label="Primary">
+          <ul>
+            {nav.map(([t, h]) => <li><a href={h} aria-current={active(h) ? 'page' : undefined}>{t}</a></li>)}
+            <li><button class="btn-ghost" type="button" data-cmdk aria-label="Open command palette" aria-keyshortcuts="Control+K Meta+K"><kbd data-mod>⌘K</kbd></button></li>
+            <li><button class="btn-ghost" type="button" data-theme-toggle aria-label="Toggle light and dark theme">
+              <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="M10 2.5a7.5 7.5 0 0 1 0 15z" fill="currentColor" /></svg>
+            </button></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <ul>
+          <li><a href={`mailto:${me.email}`}>Email</a></li>
+          <li><a href={me.linkedin} rel="me noopener">LinkedIn</a></li>
+          <li><a href={me.github} rel="me noopener">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <span class="kbd-hint">Press <kbd data-mod>⌘K</kbd> to jump anywhere</span>
+      </div>
+    </footer>
+
+    <dialog id="cmdk" aria-label="Command palette">
+      <input id="cmdk-q" type="text" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" aria-label="Search pages, posts and actions" placeholder="Type a command or search…" autocomplete="off" spellcheck="false" />
+      <ul id="cmdk-list" role="listbox" aria-label="Results"></ul>
+    </dialog>
+    <script id="cmdk-data" type="application/json" set:html={cmdkJson} />
+    <script>
+      import '../scripts/ui.ts';
+    </script>
+  </body>
+</html>

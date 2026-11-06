@@ -1,0 +1,99 @@
+---
+import { existsSync } from 'node:fs';
+import Base from '../layouts/Base.astro';
+import { me } from '../lib/site';
+
+const photo = existsSync('public/me.jpg');
+const roles = [
+  { when: 'Dec 2023 – present', t: 'Engineering Manager', o: 'Gojek | GoTo Group · India and Indonesia', b: [
+    'Lead 12 engineers (backend, mobile, SDET) across the Insurance Platform and Financial Management streams.',
+    'Helped build the embedded insurance platform from zero to ~40M insured transactions a month; held 99.9% uptime and sub-100ms p99 while volume doubled from 20M.',
+    'Cut new insurance product launch time from ~2 weeks to 4 days with modular product templates, a year-long re-architecture I made the case for, staffed and sequenced.',
+    'Launched a standalone digital insurance line of ~12 products (health, life, critical illness, cancer, personal accident) within a year.',
+    'Led a zero-downtime, zero-data-loss migration of ~12 microservices and 5 databases from Google Cloud to Alibaba Cloud, part of a programme that halved cloud costs.',
+    'Built an AI engineering assistant connecting Slack/Lark to GitLab CI/CD, observability and production tooling. Four teams use it: incident triage fell from 45 to 10 minutes, medium dev tasks from ~2 hours to 15.',
+    'Shipped the GoPay Academy platform in under two weeks with one PM and one backend engineer; it lifted insurance and investment product adoption by 10% in its first month.',
+    'Five direct reports promoted in two years; two moved into lead roles.' ] },
+  { when: 'Jul 2021 – Dec 2023', t: 'Lead Backend Engineer', o: 'Gojek', b: [
+    'Scaled the embedded insurance platform from zero to 20M insured transactions a month.',
+    'Designed and built the core backend (policy lifecycle, client onboarding, offers, subscriptions, partner integrations) in Java, PostgreSQL and Kafka, on an event-driven, hexagonal architecture.',
+    'Defined partner API contracts and onboarded 2 insurance partners. Hired 8 engineers.' ] },
+  { when: 'Mar 2020 – Jul 2021', t: 'Lead Full-Stack Engineer', o: 'Gojek', b: [
+    'Led 4 engineers on merchant lending for 20K+ Indonesian merchants; loan approval fell from 3 days to 10 minutes (Java/Spring Boot, Kafka, Redis).',
+    'Integrated the flows into the Android merchant app.' ] },
+  { when: 'Feb 2019 – Mar 2020', t: 'Lead Software Engineer', o: 'Credivia · commercial real-estate lending marketplace', b: [
+    'Led 5 developers. Cut release cycles by ~50% with automated cloud delivery and containerised builds; introduced TDD and pairing.' ] },
+  { when: 'Nov 2017 – Feb 2019', t: 'Senior Software Engineer', o: 'PSI | Boston Consulting Group', b: [
+    'On BCG Marketing Catalyst: designed the tenant-isolation layer and co-led the move from per-client databases to multi-tenant MongoDB serving 20+ multinational brands, cutting infrastructure cost by ~70%.' ] },
+  { when: 'Dec 2015 – Nov 2017', t: 'Software Development Engineer', o: 'ATOS | Worldline', b: [
+    'Helped build Inventory Plus from inception, including the QR-code and invoicing modules (Spring Boot, PostgreSQL, AWS), used by 1K+ merchants for 100K invoices a month.' ] },
+];
+const lead = [
+  ['Make the case, then staff it', 'The product-template re-architecture took a year. I argued for it, staffed it and sequenced it, and new-product launch time fell from about two weeks to four days.'],
+  ['Grow people on purpose', 'Five direct reports were promoted in two years and two became leads. Earlier, as a tech lead, I hired 8 engineers.'],
+  ['Stay close to the systems', 'I still build. I built the AI engineering assistant four teams now use for incident triage, and shipped GoPay Academy in under two weeks with one PM and one engineer.'],
+  ['Hold the reliability line', 'The cloud migration ran with zero downtime and zero data loss, and we held 99.9% uptime and sub-100ms p99 while traffic doubled.'],
+];
+const skills = [
+  ['Management', 'Engineering management, hiring, coaching, roadmap and delivery, partner coordination'],
+  ['Architecture', 'Distributed systems, platform architecture, cloud migration, AI-assisted engineering'],
+  ['Stack', 'Java, Go, Python, Spring Boot, PostgreSQL, Redis, Kafka, RabbitMQ, Kubernetes, Kong, AWS, Google Cloud, Alibaba Cloud, Grafana'],
+  ['AI tooling', 'Claude Code, Cursor, Hermes Agent'],
+];
+---
+<Base title="About" description="Engineering Manager at Gojek, about 11 years in fintech and enterprise SaaS. Experience, how I lead, skills and education.">
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="title">Ajay Singh</h1>
+      <p>Engineering Manager · Bengaluru, India · {me.email} · linkedin.com/in/ajaygahlot · github.com/ajaygahlot8</p>
+      <p class="no-print" style="margin-top:1.25rem"><button class="btn" type="button" data-print>Download as PDF</button></p>
+    </header>
+
+    <section class="sec no-print" aria-labelledby="story">
+      <h2 class="label" id="story">Story</h2>
+      <div class="about-grid">
+        <div class="story">
+          <p>I have spent about 11 years in fintech (insurance, payments, lending) and enterprise SaaS. I started as a backend engineer, moved into tech lead roles, and became an Engineering Manager at Gojek in late 2023.</p>
+          <p>The part of the job I care most about is the one that is easy to lose as a manager: staying close enough to the code to make good calls. At work that means an AI-first engineering practice. At home it means a personal agent stack on Hermes that I can phone on WhatsApp.</p>
+          <p class="facts"><span>Bengaluru, India</span><a href={`mailto:${me.email}`}>{me.email}</a></p>
+        </div>
+        {photo && <img class="photo" src="/me.jpg" alt="Ajay Singh" width="272" height="340" />}
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="exp">
+      <h2 class="label" id="exp">Experience</h2>
+      <div>{roles.map((r) => (
+        <article class="role">
+          <div class="when">{r.when}</div>
+          <div>
+            <h3>{r.t}</h3>
+            <p class="org">{r.o}</p>
+            <ul>{r.b.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        </article>
+      ))}</div>
+    </section>
+
+    <section class="sec" aria-labelledby="lead">
+      <h2 class="label" id="lead">How I lead</h2>
+      <div class="lead">{lead.map(([t, d]) => <div><h3>{t}</h3><p>{d}</p></div>)}</div>
+    </section>
+
+    <section class="sec" aria-labelledby="skills">
+      <h2 class="label" id="skills">Skills</h2>
+      <dl class="skills">{skills.map(([t, d]) => <><dt>{t}</dt><dd>{d}</dd></>)}</dl>
+    </section>
+
+    <section class="sec" aria-labelledby="edu">
+      <h2 class="label" id="edu">Education</h2>
+      <div class="story">
+        <p style="margin:0 0 .5rem">PG Diploma in Advanced Computing, CDAC Pune (2015)</p>
+        <p style="margin:0">B.Tech Computer Science, Rajasthan Technical University (2010–2014)</p>
+      </div>
+    </section>
+  </div>
+  <script>
+    if (location.hash === '#print') setTimeout(() => print(), 300);
+  </script>
+</Base>

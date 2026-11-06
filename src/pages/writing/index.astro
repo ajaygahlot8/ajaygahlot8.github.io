@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, readingTime, fmtDate } from '../../lib/site';
+
+const posts = await getPosts();
+const years = Map.groupBy(posts, (p) => p.data.pubDate.getUTCFullYear());
+---
+<Base title="Writing" description="Notes on engineering management, AI agents and the systems I build.">
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="title">Writing</h1>
+      <p>Notes on leading engineering teams and building AI agents. <a href="/rss.xml">RSS</a></p>
+    </header>
+    {posts.length === 0 && <p class="empty-note">Nothing published yet.</p>}
+    {[...years].map(([year, list]) => (
+      <section class="year" aria-label={String(year)}>
+        <h2>{year}</h2>
+        <ul class="plist">
+          {list.map((p) => (
+            <li><a href={`/writing/${p.id}/`}>
+              <time datetime={p.data.pubDate.toISOString()}>{fmtDate(p.data.pubDate)}</time>
+              <span class="t">{p.data.title}<span class="d">{p.data.description}</span></span>
+              <span class="rt">{readingTime(p.body)}</span>
+            </a></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

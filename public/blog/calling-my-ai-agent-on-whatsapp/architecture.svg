@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 640" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" role="img" aria-labelledby="t d">
+<title id="t">Calling Hermes on WhatsApp</title>
+<desc id="d">The caller's WhatsApp call reaches WhatsApp's relays, then the hermes-voice daemon, which checks the caller's trust tier, bridges audio to the GPT-Live-1 realtime voice, and hands tasks to a new Hermes chat on Claude Opus whose result comes back to be spoken or texted.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2dd4bf"/></marker></defs>
+<rect width="720" height="640" fill="#0d1517"/>
+<text x="28" y="44" font-size="22" font-weight="700" fill="#e6f1f0">Calling Hermes on WhatsApp</text>
+<text x="28" y="68" font-size="14" fill="#8fa6a4">one call, end to end</text>
+<g fill="#13211f" stroke="#2f4744" stroke-width="1.5">
+<rect x="28" y="92" width="300" height="64" rx="8"/>
+<rect x="28" y="204" width="300" height="64" rx="8"/>
+<rect x="392" y="92" width="300" height="176" rx="8"/>
+<rect x="28" y="316" width="664" height="104" rx="8" stroke="#2dd4bf" stroke-width="2"/>
+<rect x="28" y="484" width="316" height="72" rx="8"/>
+<rect x="376" y="484" width="316" height="72" rx="8"/>
+</g>
+<g fill="#e6f1f0" font-size="16" text-anchor="middle">
+<text x="178" y="119">Caller</text>
+<text x="178" y="231">WhatsApp relays</text>
+<text x="542" y="122">Trust tier</text>
+<text x="360" y="346" font-size="17" font-weight="700" fill="#2dd4bf">hermes-voice daemon</text>
+<text x="186" y="513">GPT-Live-1</text>
+<text x="534" y="513">Hermes chat · Claude Opus</text>
+</g>
+<g fill="#a9bcba" font-size="14" text-anchor="middle">
+<text x="178" y="142">WhatsApp app</text>
+<text x="178" y="254">signaling + SRTP</text>
+<text x="542" y="152">owner: full agent</text>
+<text x="542" y="178">family: tasks, no personal info</text>
+<text x="542" y="204">stranger: conversation only</text>
+<text x="542" y="240" font-size="13" fill="#8fa6a4">from WhatsApp's caller ID</text>
+<text x="360" y="372">Baileys linked device · WhatsApp Web VoIP WASM</text>
+<text x="360" y="396">barge-in · hang-up rules · log filtering</text>
+<text x="186" y="536">full-duplex realtime voice</text>
+<text x="534" y="536" font-size="13">new per call, follow-ups resume it</text>
+</g>
+<g stroke="#2dd4bf" stroke-width="2" fill="none">
+<path d="M178 156V204" marker-start="url(#a)" marker-end="url(#a)"/>
+<path d="M178 268V316" marker-start="url(#a)" marker-end="url(#a)"/>
+<path d="M186 420V484" marker-start="url(#a)" marker-end="url(#a)"/>
+<path d="M500 420V484" marker-end="url(#a)"/>
+<path d="M568 484V420" marker-end="url(#a)"/>
+<path d="M542 268V316" stroke-dasharray="5 5" marker-end="url(#a)"/>
+</g>
+<g fill="#e6f1f0" font-size="13">
+<text x="192" y="185">voice call</text>
+<text x="192" y="297">SDP offer + SRTP audio</text>
+<text x="556" y="297">per call</text>
+<text x="200" y="457">WebRTC audio + events</text>
+<text x="490" y="457" text-anchor="end">task</text>
+<text x="580" y="457">result</text>
+</g>
+<g fill="#8fa6a4" font-size="14">
+<text x="28" y="596">The result is spoken on the call, or texted after hang-up.</text>
+<text x="28" y="620">Hang-up: "bye", 3 min of silence, or 30 min total.</text>
+</g>
+</svg>

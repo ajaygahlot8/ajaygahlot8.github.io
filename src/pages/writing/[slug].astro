@@ -1,0 +1,52 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { me, getPosts, readingTime, fmtDate } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting', headline: title, description,
+  datePublished: pubDate.toISOString(), dateModified: (updatedDate ?? pubDate).toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site), image: new URL('/og.png', Astro.site),
+  keywords: tags.join(', '), author: { '@type': 'Person', name: me.name, url: Astro.site },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site),
+};
+---
+<Base title={title} description={description} type="article" jsonLd={ld}>
+  <article class="wrap">
+    <header class="post-head">
+      <h1>{title}</h1>
+      <p class="desc">{description}</p>
+      <p class="meta">
+        <time datetime={pubDate.toISOString()}>{fmtDate(pubDate, true)}</time>
+        <span>{readingTime(post.body)}</span>
+        {tags.map((t) => <span class="tag">{t}</span>)}
+      </p>
+    </header>
+    <div class="post-grid">
+      <div>
+        <div class="prose"><Content /></div>
+        <nav class="pager" aria-label="More posts">
+          {older ? <a class="prev" href={`/writing/${older.id}/`} rel="prev"><small>← Older</small><span>{older.data.title}</span></a> : <span />}
+          {newer ? <a class="next" href={`/writing/${newer.id}/`} rel="next"><small>Newer →</small><span>{newer.data.title}</span></a> : <span />}
+        </nav>
+      </div>
+      {toc.length > 1 && (
+        <nav class="toc" aria-label="On this page">
+          <strong class="label">On this page</strong>
+          <ol>{toc.map((h) => <li class={`h${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </nav>
+      )}
+    </div>
+  </article>
+</Base>

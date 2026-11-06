@@ -1,0 +1,38 @@
+---
+// Replay of the real call flow (the example from the hermes-whatsapp-voice README). All text is
+// in the DOM (readable by screen readers, and the final state without JS); the script only
+// reveals lines progressively.
+const lines = [
+  ['call', 'incoming WhatsApp call', false],
+  ['verify', 'caller ID: owner, full agent', false],
+  ['voice', 'GPT-Live-1 picks up', true],
+  ['caller', '"What\'s on my to-do list?"', false],
+  ['voice', '"Let me check your to-do list."', true],
+  ['delegate', 'new Hermes chat · Claude Opus', false],
+  ['tool', 'read_file → 12 open items', false],
+  ['voice', '"You have twelve open items…"', true],
+  ['hang up', '"bye", call ended', false],
+  ['saved', 'chat "WhatsApp call Ajay 19:03"', false],
+] as const;
+---
+<figure class="replay" aria-label="Replay of a phone call to a personal AI agent, as a transcript" data-replay>
+  <figcaption class="replay-bar"><b>replay</b><span>agent call · WhatsApp</span></figcaption>
+  <ol>
+    {lines.map(([tag, text, hl]) => <li class={hl ? 'hl' : ''} style={`--n:${tag.length + text.length}`}><span>{tag}</span><span>{text}</span></li>)}
+  </ol>
+</figure>
+<script>
+  const el = document.querySelector<HTMLElement>('[data-replay]')!;
+  const rows = [...el.querySelectorAll<HTMLElement>('li')];
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.classList.add('armed');
+    new IntersectionObserver(([e], io) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      rows.forEach((li, i) => setTimeout(() => {
+        li.classList.add('on');
+        if (i === rows.length - 1) setTimeout(() => el.classList.add('done'), 600);
+      }, i * 500));
+    }, { threshold: 0.2 }).observe(el);
+  }
+</script>
