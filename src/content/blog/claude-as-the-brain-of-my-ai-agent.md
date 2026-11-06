@@ -6,7 +6,7 @@ tags: ["hermes", "claude", "ai-agents", "llm-routing", "engineering-management"]
 draft: false
 ---
 
-I run a personal agent, Hermes Agent, all day. It answers me on WhatsApp, watches my homelab, runs about fifty scheduled jobs and does coding chores on request. Its brain is Claude. This post is how that is wired, why I chose it, and what I would tell someone building the same thing.
+I run a personal agent, Hermes Agent, all day. It answers me on WhatsApp, watches my homelab, runs about thirty scheduled jobs and does coding chores on request. Its brain is Claude. This post is how that is wired, why I chose it, and what I would tell someone building the same thing.
 
 ## Why Claude for a long tool loop
 
