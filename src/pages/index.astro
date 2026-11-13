@@ -16,15 +16,14 @@ const lab = [
 const person = {
   '@context': 'https://schema.org', '@type': 'Person', name: me.name, jobTitle: 'Engineering Manager',
   worksFor: { '@type': 'Organization', name: 'Gojek' }, url: Astro.site, email: `mailto:${me.email}`,
-  address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' },
   sameAs: [me.linkedin, me.github],
 };
 ---
-<Base description="Engineering Manager at Gojek (GoTo Group) in Bengaluru. I lead teams on an insurance platform handling 40M transactions a month, and build personal AI agents on the side." jsonLd={person}>
+<Base description="Engineering Manager at Gojek (GoTo Group). I lead teams on an insurance platform handling 40M transactions a month, and build personal AI agents on the side." jsonLd={person}>
   <div class="wrap">
     <section class="hero" aria-labelledby="h1">
       <div>
-        <p class="eyebrow">Engineering Manager · Gojek (GoTo Group) · Bengaluru</p>
+        <p class="eyebrow">Engineering Manager · Gojek (GoTo Group)</p>
         <h1 class="display" id="h1">I lead engineers.<br /> I still build.</h1>
         <p class="sub">I lead <strong>12 engineers</strong> across India and Indonesia, and helped build Gojek’s embedded insurance platform from zero to <strong>40M insured transactions a month</strong>. Off the clock I build AI agents, including one you can phone on WhatsApp.</p>
         <div class="cta">
