@@ -7,7 +7,7 @@
 
 /* Tokens: light-dark() picks from the used color-scheme, so one declaration serves both themes. */
 :root {
-  color-scheme: light dark;
+  color-scheme: light; /* light by default; the toggle opts into dark */
   --bg: light-dark(#f7faf9, #0a0f10);
   --surface: light-dark(#ffffff, #10181a);
   --border: light-dark(#dbe6e3, #1d292c);

@@ -3,7 +3,7 @@ const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
 const root = document.documentElement;
 const flash = (b: HTMLElement, msg: string) => { const o = b.textContent; b.textContent = msg; setTimeout(() => (b.textContent = o), 1400); };
 const copy = (text: string, b?: HTMLElement) => navigator.clipboard.writeText(text).then(() => b && flash(b, 'Copied'), () => b && flash(b, 'Failed'));
-const dark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+const dark = () => root.dataset.theme === 'dark';
 const toggleTheme = () => { const t = dark() ? 'light' : 'dark'; root.dataset.theme = t; try { localStorage.setItem('theme', t); } catch {} };
 
 document.addEventListener('click', (e) => {
